@@ -1,14 +1,24 @@
 import BigNumber from 'bignumber.js';
 
+import './__setup.spec';
+import { ethers } from 'ethers';
+import { waitForTx } from '../helpers/misc-utils';
 import { TestEnv, makeSuite } from './helpers/make-suite';
 import { MAX_UINT_AMOUNT } from '../helpers/constants';
-import { convertToCurrencyDecimals } from '../helpers/contracts-helpers';
+import {
+  buildPermitParams,
+  convertToCurrencyDecimals,
+  getSignatureFromTypedData,
+} from '../helpers/contracts-helpers';
 // import {ethers} from 'ethers';
 import { RateMode } from '../helpers/types';
 import { AStETH } from '../types/AStETH';
+import { DRE } from '../helpers/misc-utils';
 import { VariableDebtStETH } from '../types/VariableDebtStETH';
 import { getAStETH, getVariableDebtStETH } from '../helpers/contracts-getters';
 import { advanceTimeAndBlock, evmSnapshot, evmRevert } from '../helpers/misc-utils';
+
+const { parseEther } = ethers.utils;
 const { expect } = require('chai');
 
 let lenderA,
@@ -1698,6 +1708,57 @@ makeSuite('StETH aToken', (testEnv: TestEnv) => {
       await checkGt(currentTotalSup, balanceOfAstETH);
 
       await checkBalGt(astETH, treasuryAddress, '0');
+    });
+  });
+
+  describe('VARIABLE_DEBT_TOKEN_ADDRESS view', function () {
+    it('must return correct value', async () => {
+      const varDebtTokenAddress = await astETH.VARIABLE_DEBT_TOKEN_ADDRESS();
+      expect(varDebtTokenAddress).to.equal(debtToken.address);
+    });
+  });
+
+  describe('permit() method', function () {
+    it('Submits a permit with maximum expiration length', async () => {
+      const { deployer, users } = testEnv;
+      const owner = deployer;
+      const spender = users[1];
+
+      const chainId = DRE.network.config.chainId || 31337;
+      const deadline = MAX_UINT_AMOUNT;
+      const nonce = (await astETH._nonces(owner.address)).toNumber();
+      const permitAmount = parseEther('2').toString();
+      const msgParams = buildPermitParams(
+        chainId,
+        astETH.address,
+        '1',
+        await astETH.name(),
+        owner.address,
+        spender.address,
+        nonce,
+        deadline,
+        permitAmount
+      );
+
+      const ownerPrivateKey = require('../test-wallets.js').accounts[0].secretKey;
+      if (!ownerPrivateKey) {
+        throw new Error('INVALID_OWNER_PK');
+      }
+
+      expect((await astETH.allowance(owner.address, spender.address)).toString()).to.be.equal(
+        '0',
+        'INVALID_ALLOWANCE_BEFORE_PERMIT'
+      );
+
+      const { v, r, s } = getSignatureFromTypedData(ownerPrivateKey, msgParams);
+
+      await waitForTx(
+        await astETH
+          .connect(spender.signer)
+          .permit(owner.address, spender.address, permitAmount, deadline, v, r, s)
+      );
+
+      expect((await astETH._nonces(owner.address)).toNumber()).to.be.equal(1);
     });
   });
 });
