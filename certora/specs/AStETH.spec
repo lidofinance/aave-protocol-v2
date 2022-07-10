@@ -423,7 +423,7 @@ rule integrityBalanceOfTotalSupply(address user1, address user2){
 rule atokenPeggedToUnderlying(env e, uint256 amount, address user, uint16 referralCode){
     uint8 case;
     mathint _underlyingBalance = UNDERLYING_ASSET.balanceOf(currentContract);
-    mathint _aTokenTotalSupply = totalSupply();
+    mathint _aTokenTotalSupply = internalTotalSupply();
 
     require _underlyingBalance >= _aTokenTotalSupply;
     require LENDING_POOL.aToken() == currentContract;
@@ -442,7 +442,7 @@ rule atokenPeggedToUnderlying(env e, uint256 amount, address user, uint16 referr
     // }
     
     mathint underlyingBalance_ = UNDERLYING_ASSET.balanceOf(currentContract);
-    mathint aTokenTotalSupply_ = totalSupply();
+    mathint aTokenTotalSupply_ = internalTotalSupply();
 
     // Here the LHS of the implication is vital since a case where AStETH calls deposit will cause the backing token to be unchanged while Atokens will be minted.
     // This LHS demand is fine since AStETH cannot actively call deposit from lending pool, nor there is an `execute` method that allows calling methods externally from other contracts.
