@@ -12,7 +12,7 @@ contract SymbolicLendingPool  {
     using SafeERC20 for IERC20;
 
     address public aToken; 
-    uint256 public liquidityIndex = 1; //TODO 
+    uint256 public liquidityIndex = 2; //TODO 
     uint256 public data;
     address public Asset;
 

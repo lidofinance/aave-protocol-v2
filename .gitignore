@@ -15,3 +15,10 @@ coverage
 .coverage_artifacts
 .coverage_cache
 .coverage_contracts
+
+#certora
+.certora*
+.certora*.json
+**.last_conf*
+certora-logs
+resource_errors.json

@@ -2,7 +2,7 @@ methods {
     // Always returns amount to avoid arithmetics
     _toInternalAmount(uint256 amount, uint256 stEthRebasingIndex, uint256 aaveLiquidityIndex) returns (uint256) => returnAmount(amount, stEthRebasingIndex, aaveLiquidityIndex)
     // Always returns 1 RAY to simplify arithmetic calculations
-    _stEthRebasingIndex() returns (uint256) => ALWAYS(1000000000000000000000000000) // = one RAY
+    _stEthRebasingIndex() returns (uint256) => ALWAYS(2000000000000000000000000000) // = one RAY
     
     // The operators rayMul and rayDiv are simplified to implenent the identity operator.
     rayMul(uint256 x, uint256 y ) => identity(x, y);
