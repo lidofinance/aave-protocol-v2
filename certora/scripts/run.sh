@@ -3,9 +3,9 @@ then
     RULE="--rule $1"
 fi
 
-certoraRun certora/harness/AStETHHarness.sol certora/harness/IncentivesControllerMock.sol certora/harness/SymbolicLendingPool.sol certora/harness/DummyERC20A.sol certora/harness/DummyERC20B.sol \
-           --verify AStETHHarness:certora/specs/AStETH.spec \
-           --link AStETHHarness:UNDERLYING_ASSET_ADDRESS=DummyERC20A AStETHHarness:POOL=SymbolicLendingPool AStETHHarness:_incentivesController=IncentivesControllerMock AStETHHarness:RESERVE_TREASURY_ADDRESS=DummyERC20B SymbolicLendingPool:aToken=AStETHHarness SymbolicLendingPool:Asset=DummyERC20A \
+certoraRun contracts/protocol/tokenization/lido/AStETH.sol certora/harness/IncentivesControllerMock.sol certora/harness/SymbolicLendingPool.sol certora/harness/DummyERC20A.sol certora/harness/DummyERC20B.sol \
+           --verify AStETH:certora/specs/AStETH.spec \
+           --link AStETH:UNDERLYING_ASSET_ADDRESS=DummyERC20A AStETH:POOL=SymbolicLendingPool AStETH:_incentivesController=IncentivesControllerMock AStETH:RESERVE_TREASURY_ADDRESS=DummyERC20B SymbolicLendingPool:aToken=AStETH SymbolicLendingPool:Asset=DummyERC20A \
            --solc solc6.12 \
            --optimistic_loop \
            --settings -smt_nonLinearArithmetic=true \
