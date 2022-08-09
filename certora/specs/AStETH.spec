@@ -499,6 +499,15 @@ invariant totalSupplyGESingleUserBalance(address user, env e)
         }
     }
 
+// ***************************************** //
+//              COMUNITY RULES               //
+// ***************************************** //
+
+/* 
+ The following rules contributed by parth-15 0xDatapunk fyang1024.
+ The rules were addapted and unified in order to create greater coverage with less duplicated code.
+*/
+
 /*
     @Rule
 
@@ -756,12 +765,12 @@ rule proportionalBalancesAndTotalSupplies(address user) {
         mintToTreasury(amount, index) 
 
          { 
-        _ATokenInternalBalance := internalBalanceOf(RESERVE_TREASURY_ADDRESS()),
-        _ATokenScaledBalance := scaledBalanceOf(RESERVE_TREASURY_ADDRESS()),
-        _ATokenBalance := balanceOf(RESERVE_TREASURY_ADDRESS()),
-        _ATokenInternalTotalSupply := internalTotalSupply(),
-        _ATokenScaledTotalSupply := scaledTotalSupply(),
-        _ATokenTotalSupply := totalSupply()
+            _ATokenInternalBalance := internalBalanceOf(RESERVE_TREASURY_ADDRESS()),
+            _ATokenScaledBalance := scaledBalanceOf(RESERVE_TREASURY_ADDRESS()),
+            _ATokenBalance := balanceOf(RESERVE_TREASURY_ADDRESS()),
+            _ATokenInternalTotalSupply := internalTotalSupply(),
+            _ATokenScaledTotalSupply := scaledTotalSupply(),
+            _ATokenTotalSupply := totalSupply()
         }
         ~
 
