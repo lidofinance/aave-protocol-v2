@@ -537,7 +537,7 @@ invariant totalSupplyGESingleUserBalance(address user, env e)
             totalSupplySeparate == totalSupply();
         }
 
-    @Note:        
+    @Note: This rule was contributed by parth-15 and 0xDatapunk
 
     @Link:
     
@@ -593,7 +593,7 @@ rule burnAdditive(
             totalSupplySeparate == totalSupply()
         }
 
-    @Note:        
+    @Note: This rule was contributed by parth-15 and 0xDatapunk
 
     @Link:
     
@@ -644,7 +644,7 @@ rule mintAdditive(
             _balance == UNDERLYING_ASSET.balanceOf(target)
         }
 
-    @Note:        
+    @Note: This rule was contributed by 0xDatapunk  
 
     @Link:
     
@@ -681,7 +681,7 @@ rule transferUnderlyingToAdditivity(address target, uint256 amount1, uint256 amo
             msg.sender ≠ currentContract => underlyingBalance_ >= aTokenTotalSupply_
         }
 
-    @Note:        
+    @Note: This rule was contributed by parth-15 
 
     @Link:
     
@@ -728,7 +728,7 @@ rule mintPreservesUnderlyingAsset(
             ATokenInternalBalance_ * ATokenTotalSupply_ == ATokenBalance_ * ATokenInternalTotalSupply_
         }
 
-    @Note:
+    @Note: This rule was contributed by fyang1024 
 
     @Link:
 */
@@ -787,7 +787,7 @@ rule proportionalBalancesAndTotalSupplies(address user) {
             _ATokenTotalSupply == totalSupply()
         }
 
-    @Note:
+    @Note: This rule was contributed by fyang1024
 
     @Link:
 */
@@ -842,7 +842,7 @@ rule equivalenceOfMint(uint256 amount, uint256 index) {
             assert totalSupplyAfter == totalSupplyBefore
         }
 
-    @Note:
+    @Note: This rule was contributed by fyang1024
 
     @Link:
 */
@@ -883,7 +883,7 @@ rule integrityOfTransferOnLiquidation(address sender, address receiver, uint256 
             _underlyingBalance == UNDERLYING_ASSET.balanceOf(receiverOfUnderlying2)
         }
 
-    @Note:
+    @Note: This rule was contributed by 0xDatapunk
 
     @Link:
 */
