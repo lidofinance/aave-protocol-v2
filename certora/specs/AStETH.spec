@@ -674,11 +674,13 @@ rule transferUnderlyingToAdditivity(address target, uint256 amount1, uint256 amo
     @Formula:
 
         {
-            _underlyingBalance >= _aTokenTotalSupply
+            totalSupplyOfUnderlyingAssetBefore := UNDERLYING_ASSET.totalSupply(),
+            balanceOfUnderlyingAssetBefore := UNDERLYING_ASSET.balanceOf(user)
         }
-            LENDING_POOL.deposit(UNDERLYING_ASSET, amount, user, referralCode)
+           mint(user, amount, index)
         {
-            msg.sender ≠ currentContract => underlyingBalance_ >= aTokenTotalSupply_
+            totalSupplyOfUnderlyingAssetBefore == UNDERLYING_ASSET.totalSupply(),
+            balanceOfUnderlyingAssetBefore == UNDERLYING_ASSET.balanceOf(user)
         }
 
     @Note: This rule was contributed by parth-15 
